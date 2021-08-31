@@ -43,7 +43,7 @@ def group_posts(request, slug):
 
     return render(
         request, "posts/group_list.html", context
-           )
+    )
 
 
 def profile(request, username):
