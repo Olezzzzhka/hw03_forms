@@ -3,14 +3,13 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Group, User
 from .forms import PostForm
-import datetime as dt
 
 
 def index(request):
     post_list = Post.objects.all().order_by('-pub_date')
 
     # Показывать по 10 записей на странице.
-    paginator = Paginator(post_list, 10) 
+    paginator = Paginator(post_list, 10)
 
     # Из URL извлекаем номер запрошенной страницы - это значение параметра page
     page_number = request.GET.get('page')
@@ -22,7 +21,7 @@ def index(request):
         'post_list': post_list,
         'page_obj': page_obj,
     }
-    return render(request, 'index.html', context) 
+    return render(request, 'index.html', context)
 
 
 def group_posts(request, slug):
@@ -40,11 +39,12 @@ def group_posts(request, slug):
         "group": group,
         "post_list": post_list,
         "page_obj": page_obj,
-        }
+              }
 
     return render(
         request, "posts/group_list.html", context
-        )
+                 )
+
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
