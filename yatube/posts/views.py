@@ -39,11 +39,11 @@ def group_posts(request, slug):
         "group": group,
         "post_list": post_list,
         "page_obj": page_obj,
-        }
+    }
 
     return render(
         request, "posts/group_list.html", context
-        )
+           )
 
 
 def profile(request, username):
