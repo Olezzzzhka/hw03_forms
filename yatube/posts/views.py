@@ -1,24 +1,26 @@
 from django.contrib.auth.decorators import login_required
+
 from django.core.paginator import Paginator
+
 from django.shortcuts import render, get_object_or_404, redirect
+
+from django.conf import settings
+
 from .models import Post, Group, User
+
 from .forms import PostForm
 
 
 def index(request):
-    post_list = Post.objects.all().order_by('-pub_date')
+    post_list = Post.objects.all()
 
-    # Показывать по 10 записей на странице.
-    paginator = Paginator(post_list, 10)
+    paginator = Paginator(post_list, settings.PAGINATOR_OBJECTS_PER_PAGE)
 
-    # Из URL извлекаем номер запрошенной страницы - это значение параметра page
     page_number = request.GET.get('page')
 
-    # Получаем набор записей для страницы с запрошенным номером
     page_obj = paginator.get_page(page_number)
-    # Отдаем в словаре контекста
+
     context = {
-        'post_list': post_list,
         'page_obj': page_obj,
     }
     return render(request, 'index.html', context)
@@ -27,9 +29,9 @@ def index(request):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
 
-    post_list = group.posts.all().order_by('-pub_date')
+    post_list = group.posts.all()
 
-    paginator = Paginator(post_list, 10)
+    paginator = Paginator(post_list, settings.PAGINATOR_OBJECTS_PER_PAGE)
 
     page_number = request.GET.get('page')
 
@@ -37,7 +39,6 @@ def group_posts(request, slug):
 
     context = {
         "group": group,
-        "post_list": post_list,
         "page_obj": page_obj,
     }
 
@@ -48,11 +49,17 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    posts = author.posts.all().order_by('-pub_date')
+
+    posts = author.posts.all()
+
     posts_count = posts.count()
-    paginator = Paginator(posts, 10)
+
+    paginator = Paginator(posts, settings.PAGINATOR_OBJECTS_PER_PAGE)
+
     page_number = request.GET.get('page')
+
     page_obj = paginator.get_page(page_number)
+
     context = {
         'author': author,
         'posts': posts,
@@ -63,7 +70,6 @@ def profile(request, username):
 
 
 def post_detail(request, post_id):
-    # Здесь код запроса к модели и создание словаря контекста
     post = get_object_or_404(Post, pk=post_id)
     author_posts_count = Post.objects.filter(author_id=post.author_id).count()
     context = {
