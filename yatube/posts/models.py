@@ -19,7 +19,8 @@ class Post(models.Model):
         "date published", auto_now_add=True
     )
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="posts", verbose_name="Автор"
+        User, on_delete=models.CASCADE,
+        related_name="posts", verbose_name="Автор"
     )
     group = models.ForeignKey("Group", on_delete=models.SET_NULL,
                               related_name="posts",
