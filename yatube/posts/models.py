@@ -16,11 +16,11 @@ class Group(models.Model):
 class Post(models.Model):
     text = models.TextField(verbose_name="Текст")
     pub_date = models.DateTimeField(
-        "date published",auto_now_add=True
-        )
+        "date published", auto_now_add=True
+    )
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE,related_name="posts", verbose_name="Автор"
-        )
+        User, on_delete=models.CASCADE, related_name="posts", verbose_name="Автор"
+    )
     group = models.ForeignKey("Group", on_delete=models.SET_NULL,
                               related_name="posts",
                               blank=True, null=True,
