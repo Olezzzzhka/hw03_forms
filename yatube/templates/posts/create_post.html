@@ -21,7 +21,7 @@
                             {{ error }}
                         </div>
                 {% endfor %}
-                {% if is_edit %}
+                {% if not is_edit %}
                 <form method="post" enctype="multipart/form-data" action="{% url 'posts:post_create' %}">
                     {% csrf_token %}
                     {% for field in form %}
@@ -42,7 +42,7 @@
                     </div>
                 </form>
                 {% endif %}
-                {% if not is_edit %}
+                {% if is_edit %}
                     {% csrf_token %}
                     {% for field in form %}
                     <div class="form-group row" aria-required={% if field.field.required %}"true"{% else %}"false"{% endif %}>
@@ -56,15 +56,9 @@
                         </div>
                     {% endfor %}
                     <div class="col-md-6 offset-md-4">
-                            {% if not is_edit %}
-                            <button type="submit" class="btn btn-primary" value="Save">
-                                Добавить публикацию
-                            </button>
-                            {% else %}
                             <button type="submit" class="btn btn-primary" value="Save">
                                 Редактировать публикацию
                             </button>
-                            {% endif %}
                     </div>
                 </form>
                 {% endif %}
