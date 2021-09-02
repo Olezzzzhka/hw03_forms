@@ -62,7 +62,6 @@ def profile(request, username):
 
     context = {
         'author': author,
-        'posts': posts,
         'page_obj': page_obj,
         'posts_count': posts_count,
     }
