@@ -107,5 +107,4 @@ def post_edit(request, post_id):
         'post': post,
         'is_edit': True,
     }
-
     return render(request, 'posts/create_post.html', context)
